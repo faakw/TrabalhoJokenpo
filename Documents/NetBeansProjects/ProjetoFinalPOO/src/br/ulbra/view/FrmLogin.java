@@ -1,11 +1,9 @@
 package br.ulbra.view;
 
-
+import javax.swing.JOptionPane;
 
 public class FrmLogin extends javax.swing.JFrame {
 
-    
-    
     public FrmLogin() {
         initComponents();
     }
@@ -63,6 +61,12 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jLabel2.setText("E-MAIL ");
 
+        TXTemail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TXTemailActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("SENHA");
 
         TXTsenha.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +83,11 @@ public class FrmLogin extends javax.swing.JFrame {
         });
 
         FECHAR.setText("FECHAR");
+        FECHAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FECHARActionPerformed(evt);
+            }
+        });
 
         BTNcadastro.setText("CADASTRO");
         BTNcadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +150,25 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_TXTsenhaActionPerformed
 
     private void BTNentrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNentrarActionPerformed
+        String emailDigitado = TXTemail.getText();
+        String senhaDigitada = new String(TXTsenha.getPassword());
+
+        // Aqui você pode substituir por uma consulta ao banco de dados
+        String usuarioCorreto = "admin";
+        String senhaCorreta = "123456";
+
+        if (emailDigitado.equals(usuarioCorreto) && senhaDigitada.equals(senhaCorreta)) {
+            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+
+            // Abre a tela principal do sistema
+            FrmDashBoard frmdashboard = new FrmDashBoard();
+            frmdashboard.setVisible(true);
+
+            // Fecha a tela de login
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+        }
 
     }//GEN-LAST:event_BTNentrarActionPerformed
 
@@ -148,10 +176,18 @@ public class FrmLogin extends javax.swing.JFrame {
         new FrmCadUsu().setVisible(true);
     }//GEN-LAST:event_BTNcadastroActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    private void FECHARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FECHARActionPerformed
+        System.exit(0); // Fecha completamente o sistema
+        }//GEN-LAST:event_FECHARActionPerformed
+
+    private void TXTemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTemailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TXTemailActionPerformed
+
+/**
+ * @param args the command line arguments
+ */
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -162,16 +198,28 @@ public class FrmLogin extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmLogin.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmLogin.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmLogin.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

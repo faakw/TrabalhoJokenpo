@@ -61,9 +61,22 @@ public class CepUtil {
         return gson.fromJson(json, EnderecoCompleto.class);
     }
 
-    public static void consultarEnderecoPorCEP(String cep, JTextField txtLogradouro, JTextField txtBairro, JTextField txtCidade, JTextField txtEstado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   public static void consultarEnderecoPorCEP(String cep, JTextField txtLogradouro, JTextField txtBairro, JTextField txtCidade, JTextField txtEstado) {
+    String json = buscarEnderecoPorCep(cep);
+
+    if (json != null) {
+        EnderecoCompleto endereco = converterJsonParaEndereco(json);
+
+        if (endereco != null) {
+            txtLogradouro.setText(endereco.logradouro);
+            txtBairro.setText(endereco.bairro);
+            txtCidade.setText(endereco.localidade);
+            txtEstado.setText(endereco.uf);
+            
+        }
     }
+}
+
 
     public static class EnderecoCompleto {
 
