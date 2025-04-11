@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ulbra.view;
 
+import br.ulbra.dao.ProdutoDAO;
 import br.ulbra.entity.Produto;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author aluno.saolucas
- */
 public class FrmCadProduto extends javax.swing.JFrame {
 
     /**
@@ -19,6 +12,22 @@ public class FrmCadProduto extends javax.swing.JFrame {
      */
     public FrmCadProduto() {
         initComponents();
+    }
+
+    public void carregarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) TBproduto.getModel();
+        modelo.setRowCount(0); // limpa
+
+        ProdutoDAO dao = new ProdutoDAO();
+        for (Produto p : dao.listar()) {
+            modelo.addRow(new Object[]{
+                p.getNomeprod(),
+                p.getDataCadProd(),
+                p.getCategoriaprod(),
+                p.getValorunitprod(),
+                p.getQuantestoqueprod()
+            });
+        }
     }
 
     /**
@@ -44,6 +53,11 @@ public class FrmCadProduto extends javax.swing.JFrame {
         TXTquantidade = new javax.swing.JTextField();
         BTNsalvar = new javax.swing.JButton();
         BTNlimpar = new javax.swing.JButton();
+        BTNcalcular = new javax.swing.JButton();
+        BTNvoltar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TBproduto = new javax.swing.JTable();
+        BTNexcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +70,7 @@ public class FrmCadProduto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(335, 335, 335)
                 .addComponent(jLabel1)
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addContainerGap(900, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,6 +98,50 @@ public class FrmCadProduto extends javax.swing.JFrame {
         });
 
         BTNlimpar.setText("LIMPAR");
+        BTNlimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNlimparActionPerformed(evt);
+            }
+        });
+
+        BTNcalcular.setText("CALCULAR");
+        BTNcalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNcalcularActionPerformed(evt);
+            }
+        });
+
+        BTNvoltar.setText("VOLTAR");
+        BTNvoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNvoltarActionPerformed(evt);
+            }
+        });
+
+        TBproduto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Data", "Categoria", "Valor", "Quantidade"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TBproduto);
+
+        BTNexcluir.setText("EXCLUIR");
+        BTNexcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNexcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,25 +151,40 @@ public class FrmCadProduto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(93, 93, 93)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BTNsalvar)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(TXTnomecad, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                            .addComponent(TXTdata)
-                            .addComponent(TXTcategoria))
-                        .addGap(153, 153, 153)
+                        .addComponent(BTNexcluir)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(TXTvalor, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(TXTquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BTNlimpar)
-                        .addGap(14, 14, 14)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(TXTnomecad, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                .addComponent(TXTdata)
+                                .addComponent(TXTcategoria))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BTNsalvar)
+                                .addGap(47, 47, 47)
+                                .addComponent(BTNlimpar)))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(TXTquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(213, 213, 213))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(TXTvalor, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(BTNcalcular)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(BTNvoltar)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,42 +202,132 @@ public class FrmCadProduto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TXTdata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TXTquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TXTcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TXTdata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TXTquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TXTcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNsalvar)
-                    .addComponent(BTNlimpar))
-                .addGap(0, 128, Short.MAX_VALUE))
+                    .addComponent(BTNlimpar)
+                    .addComponent(BTNcalcular)
+                    .addComponent(BTNvoltar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BTNexcluir)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNsalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNsalvarActionPerformed
+        String nomeProduto = TXTnomecad.getText().trim();
+
+// VALIDAÇÃO DO NOME
+        if (nomeProduto.length() < 5) {
+            JOptionPane.showMessageDialog(null, "O nome do produto deve ter no mínimo 5 caracteres.");
+            return;
+        }
+
+        if (!nomeProduto.matches("[a-zA-ZÀ-ÿ\\s]+")) {
+            JOptionPane.showMessageDialog(null, "O nome do produto deve conter apenas letras e espaços (sem números ou símbolos).");
+            return;
+        }
+
+// CONTINUA SE TUDO ESTIVER CERTO
         Produto prod = new Produto();
-        prod.setNomeprod(TXTnomecad.getText());
+        prod.setNomeprod(nomeProduto);
         prod.setDataCadProd(TXTdata.getText());
         prod.setCategoriaprod(TXTcategoria.getText());
         prod.setValorunitprod(Double.parseDouble(TXTvalor.getText()));
         prod.setQuantestoqueprod(Integer.parseInt(TXTquantidade.getText()));
 
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.salvar(prod);
+        System.out.println("SALVANDO PRODUTO..."); // <-- ajuda a debugar
 
-        JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+        ProdutoDAO dao = new ProdutoDAO();
+        boolean sucesso = dao.salvar(prod); // só 1 chamada
+
+        if (sucesso) {
+            carregarTabela();
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+        }
+
+
            }//GEN-LAST:event_BTNsalvarActionPerformed
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    private void BTNcalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNcalcularActionPerformed
+
+        try {
+            Produto prod = new Produto();
+
+            // Aqui você deve pegar os valores dos campos da tela (exemplo)
+            prod.setValorunitprod(Double.parseDouble(TXTvalor.getText()));
+            prod.setQuantestoqueprod(Integer.parseInt(TXTquantidade.getText()));
+
+            double totalEstoque = prod.calcularEstoque();
+
+            JOptionPane.showMessageDialog(null, "Valor total em estoque: R$ " + totalEstoque);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Erro nos valores inseridos: " + ex.getMessage());
+        }
+
+    }//GEN-LAST:event_BTNcalcularActionPerformed
+
+    private void BTNvoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNvoltarActionPerformed
+        FrmDashBoard telaPrincipal = new FrmDashBoard();
+        telaPrincipal.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BTNvoltarActionPerformed
+
+    private void BTNexcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNexcluirActionPerformed
+
+        int linhaSelecionada = TBproduto.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.");
+            return;
+        }
+
+        // Pegando o nome do produto da tabela — coluna 1 (ajuste se necessário)
+        String nome = TBproduto.getValueAt(linhaSelecionada, 0).toString();
+
+        int confirmacao = JOptionPane.showConfirmDialog(null,
+                "Deseja realmente excluir o produto '" + nome + "'?",
+                "Confirmação de Exclusão",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            ProdutoDAO dao = new ProdutoDAO();
+            if (dao.excluirPorNome(nome)) {
+                carregarTabela(); // atualiza a tabela
+            }
+
+        }
+
+
+    }//GEN-LAST:event_BTNexcluirActionPerformed
+
+    private void BTNlimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNlimparActionPerformed
+        TXTnomecad.setText("");
+        TXTdata.setText("");
+        TXTcategoria.setText("");
+        TXTvalor.setText("");
+        TXTquantidade.setText("");
+
+        TXTnomecad.requestFocus();
+    }//GEN-LAST:event_BTNlimparActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -175,28 +338,24 @@ public static void main(String args[]) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(FrmCadProduto.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(FrmCadProduto.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(FrmCadProduto.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrmCadProduto.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -209,8 +368,12 @@ public static void main(String args[]) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNcalcular;
+    private javax.swing.JButton BTNexcluir;
     private javax.swing.JButton BTNlimpar;
     private javax.swing.JButton BTNsalvar;
+    private javax.swing.JButton BTNvoltar;
+    private javax.swing.JTable TBproduto;
     private javax.swing.JTextField TXTcategoria;
     private javax.swing.JTextField TXTdata;
     private javax.swing.JTextField TXTnomecad;
@@ -223,5 +386,6 @@ public static void main(String args[]) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,9 +1,8 @@
-
 package br.ulbra.entity;
 
-
 public class Produto {
-     private int pkidprod;
+
+    private int pkidprod;
     private String nomeprod;
     private String dataCadProd;
     private String categoriaprod;
@@ -23,7 +22,6 @@ public class Produto {
         this.valorunitprod = valorunitprod;
         this.quantestoqueprod = quantestoqueprod;
     }
-    
 
     // Getters e Setters
     public int getPkidprod() {
@@ -73,7 +71,19 @@ public class Produto {
     public void setQuantestoqueprod(int quantestoqueprod) {
         this.quantestoqueprod = quantestoqueprod;
     }
-    
-    
-    
+
+    public double calcularEstoque() {
+        return this.valorunitprod * this.quantestoqueprod;
+    }
+
+    public String exibirInformacoes() {
+        return "ID: " + pkidprod + "\n"
+                + "Nome: " + nomeprod + "\n"
+                + "Data Cadastro: " + dataCadProd + "\n"
+                + "Categoria: " + categoriaprod + "\n"
+                + "Valor Unitário: R$ " + valorunitprod + "\n"
+                + "Quantidade em Estoque: " + quantestoqueprod + "\n"
+                + "Valor Total em Estoque: R$ " + calcularEstoque();
+    }
+
 }

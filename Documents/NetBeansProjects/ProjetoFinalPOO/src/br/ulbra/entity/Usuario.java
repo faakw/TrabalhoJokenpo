@@ -136,4 +136,19 @@ public class Usuario {
         // A função matches retorna true se a senha atender aos requisitos da expressão regular
         return senha.matches(regex);
     }
+    
+    public String exibirInformacoes() {
+    return "ID: " + pkidusu + "\n"
+         + "Nome: " + nomeusu + "\n"
+         + "Email: " + emailusu + "\n"
+         + "Fone: " + foneusu + "\n"
+         + "CPF: " + cpfusu + "\n"
+         + "CEP: " + cepusu + "\n"
+         + "Logradouro: " + logradourousu + "\n"
+         + "Número: " + numerousu + "\n"
+         + "Bairro: " + bairrousu + "\n"
+         + "Cidade: " + cidadeusu + "\n"
+         + "Estado: " + estadousu;
+}
+
 }
